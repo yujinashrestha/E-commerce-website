@@ -56,3 +56,15 @@ def product(request, pk):
     product=Product.objects.get(id=pk)
     return render(request, 'product.html', {'product':product})
 
+def category(request, cat):
+    cat=cat.replace('-', " ")
+    try:
+        category=Category.objects.get(name=cat)
+        products=Product.objects.filter(category=category)
+        return render(request, 'category.html', {'products':products, 'category':category})
+    
+    except:
+        messages.success(request, ('This category doesnt exists!'))
+        return redirect('home')
+
+
